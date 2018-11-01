@@ -2,11 +2,11 @@ import tkinter as tk
 
 class MonBouton(tk.Button):
     def __init__(self, frame, fenetre, texte):
-        self.texte  = texte
-        self.master = frame
-        self.fenetre = fenetre
-        tk.Button.__init__(self, master = self.master, text = self.texte, command = self.cliquer)
+        self.__texte  = texte
+        self.__master = frame
+        self.__fenetre = fenetre
+        tk.Button.__init__(self, master = self.__master, text = self.__texte, command = self.cliquer)
         
     def cliquer(self):
         self.config(state="disabled")
-        self.fenetre.traitement(self.texte)
+        self.__fenetre.traitement(self.__texte)

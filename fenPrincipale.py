@@ -11,24 +11,24 @@ class FenPrincipale(tk.Tk):
     """
         
     def __init__(self):
-        self.fenetre     = tk.Tk.__init__(self)
-        self.bottomFrame = tk.Frame(self)
-        self.topFrame    = tk.Frame(self)
-        self.canvas      = tk.Canvas(self)
-        self.canvas.pack(side="top")
-        self.username = ""
-        self.pseudo = tk.Label(self, text="Pseudo : ")
-        self.pseudo.pack()
-        self.lmot        = tk.Label(self)
-        self.lmot.pack()
-        self.mot         = ""
-        self.motAffiche  = ""
-        self.nbManques   = 0
-        self.mots        = []
+        self.__fenetre     = tk.Tk.__init__(self)
+        self.__bottomFrame = tk.Frame(self)
+        self.__topFrame    = tk.Frame(self)
+        self.__canvas      = tk.Canvas(self)
+        self.__canvas.pack(side="top")
+        self.__username = ""
+        self.__pseudo = tk.Label(self, text="Pseudo : ")
+        self.__pseudo.pack()
+        self.__lmot        = tk.Label(self)
+        self.__lmot.pack()
+        self.__mot         = ""
+        self.__motAffiche  = ""
+        self.__nbManques   = 0
+        self.__mots        = []
         self.title('jeu du pendu')
         self.initTopFrame()
-        self.lettres = self.getAlphabet()
-        self.boutons = []
+        self.__lettres = self.getAlphabet()
+        self.__boutons = []
         self.initBoutons()
         self.displayBoutons()
         self.chargeMots()
@@ -40,22 +40,22 @@ class FenPrincipale(tk.Tk):
         Méthode appelée à chaque fois que l'utilisateur tape sur une lettre
         """
         find = False
-        for i in range(len(self.mot)):
-            if self.mot[i] == lettre:
-                self.motAffiche = self.motAffiche[:i] + lettre + self.motAffiche[i+1:]
+        for i in range(len(self.__mot)):
+            if self.__mot[i] == lettre:
+                self.__motAffiche = self.__motAffiche[:i] + lettre + self.__motAffiche[i+1:]
                 find = True
-                self.lmot.config(text=self.motAffiche)
+                self.__lmot.config(text=self.__motAffiche)
 
         if not find:
-            self.nbManques += 1
+            self.__nbManques += 1
         
-        if self.motAffiche == self.mot:
-            self.finPartie(True)
+        if self.__motAffiche == self.__mot:
+            self.__finPartie(True)
 
-        if self.nbManques >= 7:
+        if self.__nbManques >= 7:
             self.finPartie(False)   
 
-        self.displayPicture(self.nbManques +1)
+        self.displayPicture(self.__nbManques +1)
 
     def finPartie(self, result):
         """
@@ -63,45 +63,45 @@ class FenPrincipale(tk.Tk):
         """
 
         for i in range(26):
-            self.boutons[i].config(state="disabled")
+            self.__boutons[i].config(state="disabled")
 
         if result:
-            self.lmot.config(text="Félicitations")
+            self.__lmot.config(text="Félicitations")
 
         else:
-            self.lmot.config(text=self.mot)
+            self.__lmot.config(text=self.__mot)
         
-        if self.username != "":
+        if self.__username != "":
             self.saveResult(result)
         
 
     def saveResult(self, result):
         with open('bdd.txt','a') as f:
-            f.write(self.username + "," +self.mot + "," + str(result) +"\n")
+            f.write(self.__username + "," +self.__mot + "," + str(result) +"\n")
 
     def statistique(self):
-        f = FenSecondaire(self.username)
+        f = FenSecondaire(self.__username)
 
     def initTopFrame(self):
         """
         initialise les boutons nouvelle partie et Quitter
         """
-        self.bouton_nouvelle_partie = tk.Button(self.topFrame,
+        self.__bouton_nouvelle_partie = tk.Button(self.__topFrame,
             text="Nouvelle Partie",
             command=self.nouvelle_partie)
 
-        self.bouton_statistiques = tk.Button(self.topFrame,
+        self.__bouton_statistiques = tk.Button(self.__topFrame,
             text="Statistiques",
             command=self.statistique)
 
-        self.bouton_quitter = tk.Button(self.topFrame,
+        self.__bouton_quitter = tk.Button(self.__topFrame,
             text="Quitter",
             command=self.quit)
 
-        self.bouton_nouvelle_partie.pack(side="left")
-        self.bouton_quitter.pack(side="right")
-        self.bouton_statistiques.pack()
-        self.topFrame.pack(side="top")
+        self.__bouton_nouvelle_partie.pack(side="left")
+        self.__bouton_quitter.pack(side="right")
+        self.__bouton_statistiques.pack()
+        self.__topFrame.pack(side="top")
 
 
     def nouvelle_partie(self):
@@ -109,29 +109,29 @@ class FenPrincipale(tk.Tk):
         Méthode qui initialise une nouvelle partie
         """
         self.displayPicture(1)
-        self.nbManques = 0
-        self.motAffiche = ""
+        self.__nbManques = 0
+        self.__motAffiche = ""
         self.nouveauMot()
 
         prompt = simpledialog.askstring("Fenetre pour mettre ton pseudo :O","ton pseudo ?")
         
         if prompt is not None:
-            self.username = prompt
-            self.pseudo.config(text ="Pseudo : " + self.username)
+            self.__username = prompt
+            self.__pseudo.config(text ="Pseudo : " + self.__username)
         
-        if self.username == "":
-            self.bouton_statistiques.config(state="disabled")
+        if self.__username == "":
+            self.__bouton_statistiques.config(state="disabled")
 
         else:
-            self.bouton_statistiques.config(state="normal")
+            self.__bouton_statistiques.config(state="normal")
 
-        for k in range(len(self.mot)):
-            self.motAffiche += "*"
+        for k in range(len(self.__mot)):
+            self.__motAffiche += "*"
 
-        self.lmot.config(text=self.motAffiche)
+        self.__lmot.config(text=self.__motAffiche)
 
         for k in range(26):
-            self.boutons[k].config(state="normal")
+            self.__boutons[k].config(state="normal")
 
     def getAlphabet(self):
         """
@@ -147,8 +147,8 @@ class FenPrincipale(tk.Tk):
         Remplit la liste self.boutons d'objets MonBouton
         """
         for i in range(26):
-            bouton = MonBouton(self.bottomFrame, self, self.lettres[i])
-            self.boutons += [bouton]
+            bouton = MonBouton(self.__bottomFrame, self, self.__lettres[i])
+            self.__boutons += [bouton]
 
     def displayBoutons(self):
         """
@@ -158,22 +158,22 @@ class FenPrincipale(tk.Tk):
         for i in range(4):
             for j in range(7):
                 if c< 26:
-                    self.boutons[c].grid(row=i,column=j)
+                    self.__boutons[c].grid(row=i,column=j)
                     c+=1
-        self.bottomFrame.pack(side="bottom")
+        self.__bottomFrame.pack(side="bottom")
 
     def chargeMots(self):
         """
         Charge le contenu du fichier mots.txt dans une liste
         """
         with open('mots.txt','r') as f:
-            self.mots = f.read().splitlines()
+            self.__mots = f.read().splitlines()
 
     def nouveauMot(self):
         """
         Choisis un nouveau mot aléatoirement dans la liste de mots préchargés
         """
-        self.mot = self.mots[randint(0,len(self.mots)-1)]
+        self.__mot = self.__mots[randint(0,len(self.__mots)-1)]
 
     def displayPicture(self, number):
         """
@@ -181,6 +181,6 @@ class FenPrincipale(tk.Tk):
         """
         nomImage = 'img/pendu'+str(number)+'.gif'
         photo = tk.PhotoImage(master=self, file=nomImage)
-        self.canvas.image = photo
-        self.canvas.create_image(0,0, anchor="nw", image=photo)
-        self.canvas.config(height=photo.height(),width=photo.width())
+        self.__canvas.image = photo
+        self.__canvas.create_image(0,0, anchor="nw", image=photo)
+        self.__canvas.config(height=photo.height(),width=photo.width())
