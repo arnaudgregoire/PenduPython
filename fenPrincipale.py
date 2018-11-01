@@ -180,7 +180,7 @@ class FenPrincipale(tk.Tk):
         Affiche une image du pendu en fonction du nombre de mauvaises réponses
         """
         nomImage = 'img/pendu'+str(number)+'.gif'
-        photo = tk.PhotoImage(file=nomImage)
+        photo = tk.PhotoImage(master=self, file=nomImage)
         self.canvas.image = photo
         self.canvas.create_image(0,0, anchor="nw", image=photo)
         self.canvas.config(height=photo.height(),width=photo.width())
